@@ -184,9 +184,13 @@ research_assistant/
 
 ## Streamlit APP
 
-<video width="100%" controls>
-  <source src="./research_assistant/imgs/Screen%20Recording%202026-04-29%20051948.mp4" type="video/mp4">
-  Your browser does not support the video tag.
+<img width="1912" height="920" alt="Screenshot 2026-04-29 055214" src="https://github.com/user-attachments/assets/03b7ae7d-878a-4695-aab0-3fe2ffb46fce" />
+
+<img width="1911" height="915" alt="Screenshot 2026-04-29 055229" src="https://github.com/user-attachments/assets/ca04b6d4-663c-4c6e-97ba-c91776ad2694" />
+
+
+
+
 </video>
 
 ---
