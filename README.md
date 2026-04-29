@@ -6,7 +6,7 @@ A context engineering pipeline built with CrewAI that gathers research from four
 
 ---
 
-![Multi-Agent Research Assistant](./imgs/image%20copy.png)
+![Multi-Agent Research Assistant](./research_assistant/imgs/imgs/image%20copy.png)
 
 ## Quick Start
 
@@ -185,7 +185,7 @@ research_assistant/
 ## Streamlit APP
 
 <video width="100%" controls>
-  <source src="./imgs/Screen%20Recording%202026-04-29%20051948.mp4" type="video/mp4">
+  <source src="./research_assistant/imgs/Screen%20Recording%202026-04-29%20051948.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
