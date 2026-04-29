@@ -1,0 +1,22 @@
+synthesis_task:
+  description: >
+    Write a comprehensive research response to the user's query: {query}
+
+    Use the following evaluated and filtered context:
+    {filtered_context}
+
+    Sources that passed relevance filtering: {relevant_sources}
+
+    Structure your response with:
+    1. A direct answer to the query (1-2 paragraphs)
+    2. Supporting evidence section — cite each relevant source by name
+    3. Key insights and takeaways
+    4. A brief conclusion
+
+    Cite sources inline using [Source Name] notation.
+  expected_output: >
+    A well-structured research response in markdown format. Must include:
+    a direct answer paragraph, evidence sections citing each source by name,
+    key takeaways as a bulleted list, and a conclusion paragraph.
+    Minimum 400 words. Use headers (##) to organize sections.
+  agent: synthesizer_agent

@@ -1,0 +1,102 @@
+# Context Gathering Tasks (all run with async_execution=True for parallelism)
+
+rag_task:
+  description: >
+    Search the local Milvus vector database for document chunks relevant to
+    the query: {query}
+    Return the top 5 most relevant chunks with their source names and content.
+    If no documents are indexed, clearly state that.
+  expected_output: >
+    A structured list of relevant document passages. Each passage should include:
+    the source document name, a relevance note, and the extracted text.
+    If no documents are indexed, state: "No documents indexed yet."
+  agent: rag_agent
+
+memory_task:
+  description: >
+    Search the user's Zep memory store for prior research sessions and
+    conversation history related to: {query}
+    Retrieve the most relevant historical context including dates and key findings.
+  expected_output: >
+    A summary of relevant prior research sessions and conversation history.
+    Include dates and key findings. If no memory exists, state: "No prior
+    memory found for this user."
+  agent: memory_agent
+
+web_search_task:
+  description: >
+    Use Firecrawl to search the web for current information about: {query}
+    Focus on authoritative sources, recent content, and factual information.
+    Retrieve and extract content from the top 3 results.
+  expected_output: >
+    Extracted content from up to 3 web sources. For each source include:
+    the URL, title, and the key relevant passage (up to 800 characters).
+    Focus on factual, citable content.
+  agent: web_search_agent
+
+arxiv_task:
+  description: >
+    Search arXiv for the most relevant academic papers about: {query}
+    Find up to 5 papers with strong relevance. Extract title, authors,
+    arXiv URL, and key findings from each abstract.
+  expected_output: >
+    A list of up to 5 arXiv papers. For each paper include: title, authors,
+    arXiv URL, and a 2-3 sentence summary of key findings relevant to the query.
+  agent: arxiv_agent
+
+# Evaluation Task
+
+evaluation_task:
+  description: >
+    Evaluate the relevance of context gathered from four sources for the query: {query}
+
+    RAG (Document) Context:
+    {rag_context}
+
+    Memory Context:
+    {memory_context}
+
+    Web Context:
+    {web_context}
+
+    ArXiv Context:
+    {arxiv_context}
+
+    For each source, assign a relevance score from 0.0 to 1.0. Filter out sources
+    scoring below 0.4. Concatenate the filtered context into a single coherent block,
+    removing duplicates. Return a JSON object matching the required schema exactly.
+  expected_output: >
+    A JSON object with exactly these three fields:
+    - "relevant_sources": a list of source name strings that scored >= 0.4
+      (use names from: "rag", "memory", "web", "arxiv")
+    - "filtered_context": a single string containing concatenated context from
+      relevant sources, with duplicates removed
+    - "relevance_scores": a dict mapping each source name to its float score
+    Example: {"relevant_sources": ["rag", "arxiv"], "filtered_context": "...",
+    "relevance_scores": {"rag": 0.9, "memory": 0.3, "web": 0.6, "arxiv": 0.85}}
+  agent: context_evaluator_agent
+
+# Synthesis Task
+
+synthesis_task:
+  description: >
+    Write a comprehensive research response to the user's query: {query}
+
+    Use the following evaluated and filtered context:
+    {filtered_context}
+
+    Sources that passed relevance filtering: {relevant_sources}
+
+    Structure your response with:
+    1. A direct answer to the query (1-2 paragraphs)
+    2. Supporting evidence section — cite each relevant source by name
+    3. Key insights and takeaways
+    4. A brief conclusion
+
+    Cite sources inline using [Source Name] notation.
+  expected_output: >
+    A well-structured research response in markdown format. Must include:
+    a direct answer paragraph, evidence sections citing each source by name,
+    key takeaways as a bulleted list, and a conclusion paragraph.
+    Minimum 400 words. Use headers (##) to organize sections.
+  agent: synthesizer_agent

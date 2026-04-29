@@ -1,0 +1,29 @@
+evaluation_task:
+  description: >
+    Evaluate the relevance of context gathered from four sources for the query: {query}
+
+    RAG (Document) Context:
+    {rag_context}
+
+    Memory Context:
+    {memory_context}
+
+    Web Context:
+    {web_context}
+
+    ArXiv Context:
+    {arxiv_context}
+
+    For each source, assign a relevance score from 0.0 to 1.0. Filter out sources
+    scoring below 0.4. Concatenate the filtered context into a single coherent block,
+    removing duplicates. Return a JSON object matching the required schema exactly.
+  expected_output: >
+    A JSON object with exactly these three fields:
+    - "relevant_sources": a list of source name strings that scored >= 0.4
+      (use names from: "rag", "memory", "web", "arxiv")
+    - "filtered_context": a single string containing concatenated context from
+      relevant sources, with duplicates removed
+    - "relevance_scores": a dict mapping each source name to its float score
+    Example: {"relevant_sources": ["rag", "arxiv"], "filtered_context": "...",
+    "relevance_scores": {"rag": 0.9, "memory": 0.3, "web": 0.6, "arxiv": 0.85}}
+  agent: context_evaluator_agent
