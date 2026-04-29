@@ -6,7 +6,7 @@ A context engineering pipeline built with CrewAI that gathers research from four
 
 ---
 
-![Multi-Agent Research Assistant](./research_assistant/imgs/imgs/image%20copy.png)
+![Multi-Agent Research Assistant](./research_assistant/imgs/image%20copy.png)
 
 ## Quick Start
 
